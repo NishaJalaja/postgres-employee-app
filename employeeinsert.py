@@ -1,11 +1,12 @@
 import psycopg2
 
+connection = None
 try:
     # 1. Connect to your database
     connection = psycopg2.connect(
         user="dbadmin",
-        password="bhagavthi1",
-        host="127.0.0.1",
+        password="bhagavathi1",
+        host="my-test-postgres-db.ch4kq2860gzt.eu-north-1.rds.amazonaws.com",
         port="5432",
         database="test"
     )
