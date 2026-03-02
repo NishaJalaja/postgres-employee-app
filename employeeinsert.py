@@ -14,7 +14,7 @@ try:
 
     # 2. Define the SQL and data
     insert_query = """INSERT INTO employee (employeeId, employeename, age, salary) 
-                      VALUES (%d, %s, %d, %d)"""
+                      VALUES (%s, %s, %s, %s)"""
     record_to_insert = (1, 'Alice Smith', 35, 95000)
 
     # 3. Execute and Commit
