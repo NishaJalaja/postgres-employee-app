@@ -26,8 +26,63 @@ Resources:
       Name: github/repo/credentials
       Description: "GitHub PAT for cloning private repos"
       SecretString: '{"token":"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"}'
+# --- NETWORK LAYER ---
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
 
-  # 3. Create IAM Role for EC2
+  MyInternetGateway:
+    Type: AWS::EC2::InternetGateway
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref MyVPC
+      InternetGatewayId: !Ref MyInternetGateway
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true # Essential for Public IP
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVPC
+
+  DefaultPublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref MyInternetGateway
+
+  SubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet
+      RouteTableId: !Ref PublicRouteTable
+
+  # --- SECURITY & ROLES ---
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH and Outbound
+      VpcId: !Ref MyVPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0 # Allows SSH from anywhere
+  
+
+# 3. Create IAM Role for EC2
   EC2InstanceRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -63,6 +118,11 @@ Resources:
       ImageId: !Ref LatestAmiId
       KeyName: !Ref MyEC2KeyPair
       IamInstanceProfile: !Ref EC2InstanceProfile
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: "true"
+          DeviceIndex: "0"
+          GroupSet: [!Ref InstanceSecurityGroup]
+          SubnetId: !Ref PublicSubnet
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
@@ -77,3 +137,6 @@ Resources:
           cd postgres-employee-app
           pip3 install psycopg2-binary
           python3 employeeinsert.py >> /var/log/app_execution.log 2>&1
+  Outputs:
+    PublicIP:
+      Value: !GetAtt PythonAppInstance.PublicIp
