@@ -18,9 +18,9 @@ spec:
       containers:
       - name: app-container
         image: 796174528069.dkr.ecr.eu-north-1.amazonaws.com/kubernetes-test:latest
-        restartPolicy: Never
-        ports:
-        - containerPort: 8080 # Change this to the port your Python app uses
+      restartPolicy: Never
+        #ports:
+        #- containerPort: 8080 # Change this to the port your Python app uses
 ---
 apiVersion: v1
 kind: Service
