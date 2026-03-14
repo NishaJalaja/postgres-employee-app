@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Job
 metadata:
   name: my-python-app
 spec:
@@ -15,6 +15,8 @@ spec:
       containers:
       - name: app-container
         image: 796174528069.dkr.ecr.eu-north-1.amazonaws.com/kubernetes-test:latest
+        restartPolicy: Never
+        backoffLimit: 4
         ports:
         - containerPort: 8080 # Change this to the port your Python app uses
 ---
