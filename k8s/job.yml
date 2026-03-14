@@ -11,9 +11,9 @@ spec:
     metadata:
       labels:
         app: python-app
-    spec:
-      backoffLimit: 4
-      template:
+spec:
+  backoffLimit: 4
+  template:
     spec:  
       containers:
       - name: app-container
