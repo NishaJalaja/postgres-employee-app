@@ -13,6 +13,8 @@ spec:
         app: python-app
     spec:
       backoffLimit: 4
+      template:
+    spec:  
       containers:
       - name: app-container
         image: 796174528069.dkr.ecr.eu-north-1.amazonaws.com/kubernetes-test:latest
