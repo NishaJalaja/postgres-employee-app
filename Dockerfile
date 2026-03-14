@@ -3,6 +3,7 @@ FROM python:3.11-slim
 
 # Set the working directory inside the container
 WORKDIR /app
+COPY . /app
 
 # Set environment variables to ensure Python output is sent to logs immediately
 ENV PYTHONUNBUFFERED=1
