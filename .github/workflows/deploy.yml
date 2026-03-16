@@ -37,5 +37,5 @@ jobs:
       - name: Deploy to EKS
         run: |
           ls -R k8s/
-          kubectl delete job employee-import-job --ignore-not-found
+          kubectl delete job my-python-app --ignore-not-found
           kubectl apply -f $GITHUB_WORKSPACE/k8s/job.yml
