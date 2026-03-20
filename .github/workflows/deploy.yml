@@ -3,6 +3,13 @@ env:
 name: Deploy to Amazon ECS
 on:
   workflow_call: 
+    inputs:
+      target_repo:
+        required: true
+        type: string
+    secrets:
+        GH_PAT:
+          required: true
   #push:
     #branches: [ "main" ]
 
@@ -15,6 +22,7 @@ jobs:
         with:
           repository: NishaJalaja/postgres-employee-app
           token: ${{ secrets.GH_PAT }}
+          ref: main
           clean: true
      
 
