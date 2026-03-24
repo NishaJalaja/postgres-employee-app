@@ -16,6 +16,9 @@ on:
 jobs:
   deploy:
     runs-on: eks-runner-set
+    permissions:
+      id-token: write  # This is the "magic" line for OIDC
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
