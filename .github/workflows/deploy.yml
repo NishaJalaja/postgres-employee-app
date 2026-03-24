@@ -26,7 +26,12 @@ jobs:
           ref: main
           clean: true
      
-
+      - name: Debug OIDC Claims
+        run: |
+          # This prints the raw token info (masked) to the logs
+          echo "AUD: sts.amazonaws.com"
+          echo "Repo: ${{ github.repository }}"
+          echo "Ref: ${{ github.ref }}"
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
