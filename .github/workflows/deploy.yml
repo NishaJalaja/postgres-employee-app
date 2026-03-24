@@ -32,7 +32,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::796174528069:role/GitHubActionRunnerRole
+          role-to-assume: arn:aws:iam::796174528069:role/KarpenterControllerRole-my-eks-cluster 
           aws-region: us-east-1
 
       - name: Debug Secret Presence
