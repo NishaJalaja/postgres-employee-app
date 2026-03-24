@@ -33,6 +33,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Debug Secret Presence
+        run: |
+          if [ -z "${{ secrets.AWS_REGION }}" ]; then
+            echo "AWS_REGION secret is EMPTY or NOT FOUND"
+            exit 1
+          else
+            echo "AWS_REGION secret is set (value is masked)"
+          fi
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
