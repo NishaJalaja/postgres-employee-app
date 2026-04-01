@@ -17,7 +17,7 @@ spec:
     spec:  
       containers:
       - name: app-container
-        image: image: ${FULL_IMAGE_NAME}
+        image: ${FULL_IMAGE_NAME}
       restartPolicy: Never
         #ports:
         #- containerPort: 8080 # Change this to the port your Python app uses
