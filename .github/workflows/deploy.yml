@@ -66,5 +66,7 @@ jobs:
       - name: Deploy to EKS
         run: |
           ls -R k8s/
-          kubectl delete job my-python-app --ignore-not-found
-          kubectl apply -f $GITHUB_WORKSPACE/k8s/job.yml
+          kubectl delete job my-python-app --ignore-not-found 
+          export FULL_IMAGE_NAME= FULL_IMAGE 
+          envsubst < $GITHUB_WORKSPACE/k8s/job.yml | kubectl apply -f -
+          
